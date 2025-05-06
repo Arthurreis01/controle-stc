@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Supply Control Dashboard</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <header class="header">
+    <h1>Supply Control</h1>
+    <div>
+      <button id="btn-profile" class="btn">Perfil</button>
+      <button id="btn-logout" class="btn outline">Sair</button>
+    </div>
+  </header>
+  <aside class="sidebar">
+    <nav>
+      <a href="#dashboard">🏠 Dashboard</a>
+      <a href="#import">⬆️ Importar RMT</a>
+      <a href="#listing">📋 Listar RMT</a>
+      <a href="#stc">🗂️ STC</a>
+      <a href="#rtc">🚚 RTC</a>
+      <a href="#pending">⏳ Pendentes</a>
+      <a href="#settings">⚙️ Configurações</a>
+    </nav>
+  </aside>  
+  <main id="app" class="main"></main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</body>
+</html>
