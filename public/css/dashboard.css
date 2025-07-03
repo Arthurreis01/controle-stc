@@ -1,0 +1,228 @@
+/* ========================================================================
+   dashboard.css
+   Layout responsivo dos cards de centros e estilos gerais do dashboard
+   ======================================================================== */
+
+
+/* ─── 1. RESET / BASE ──────────────────────────────────────────────────── */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  background-color: #f8f9fa;      /* 60% neutro (fundo claro) */
+  color: #343a40;                 /* 30% neutro-escuro (texto) */
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #212529;                 /* Títulos um pouco mais escuros */
+  font-weight: 500;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+a:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Remover sublinhado em links */
+a.link-details:hover {
+  text-decoration: underline;
+}
+
+
+/* ─── 2. CONTAINER PRINCIPAL ─────────────────────────────────────────── */
+
+.container-dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Cabeçalho do Dashboard */
+.header-dashboard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.header-dashboard h1 {
+  font-size: 1.75rem;
+  font-weight: 500;
+}
+
+.header-dashboard .btn-export {
+  background-color: transparent;
+  border: none;
+  color: #0d6efd;                /* 10% de destaque (azul Bootstrap) */
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+.header-dashboard .btn-export:hover {
+  text-decoration: underline;
+  color: #0a58ca;                /* Azul mais escuro no hover */
+}
+
+
+/* Mensagem de importação bem-sucedida ou erro */
+#dashboard-msg {
+  margin-top: 0.5rem;
+}
+#dashboard-msg.alert {
+  border-radius: 0.25rem;
+  font-size: 0.9rem;
+}
+
+
+/* ─── 3. GRID DE CARDS DE CENTROS ────────────────────────────────────── */
+
+#cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Cada coluna responsiva */
+.col-custom {
+  flex: 1 1 100%;
+  max-width: 100%;
+}
+
+@media (min-width: 576px) {
+  .col-custom {
+    flex: 1 1 calc(50% - 1rem);
+    max-width: calc(50% - 1rem);
+  }
+}
+@media (min-width: 768px) {
+  .col-custom {
+    flex: 1 1 calc(33.333% - 1rem);
+    max-width: calc(33.333% - 1rem);
+  }
+}
+@media (min-width: 992px) {
+  .col-custom {
+    flex: 1 1 calc(25% - 1rem);
+    max-width: calc(25% - 1rem);
+  }
+}
+
+/* ─── 4. ESTILO DO “CARD” DE CADA CENTRO ─────────────────────────────── */
+
+.card-summary {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;     /* branco puro */
+  border: 1px solid #e9ecef;     /* borda leve */
+  border-radius: 0.5rem;
+  transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  height: 100%;
+}
+
+.card-summary:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+.card-summary .card-header {
+  background-color: #0d6efd;     /* cabeçalho azul */
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}
+
+.card-summary .card-body {
+  padding: 1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Um pequeno espaçamento entre linhas de informação */
+.card-summary .card-body p {
+  margin-bottom: 0.5rem;
+  color: #495057;  /* texto ligeiramente mais escuro para conteúdo */
+}
+.card-summary .card-body small {
+  color: #6c757d;  /* texto de legenda */
+  font-size: 0.85rem;
+}
+
+.card-summary .card-body h4 {
+  margin-top: 0.25rem;
+  font-size: 1.5rem;
+  color: #212529;  /* valor em cor escura */
+}
+
+.card-summary .link-details {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  color: #0d6efd;                 /* texto azul para “Ver detalhes” */
+  font-weight: 500;
+}
+.card-summary .link-details:hover {
+  text-decoration: underline;
+}
+
+
+/* ─── 5. BOTÃO “VER DETALHES →” ──────────────────────────────────────── */
+
+/* (Caso queira centrar o link no rodapé) */
+.card-summary .link-container {
+  text-align: left;
+  margin-top: auto;
+}
+
+
+/* ─── 6. TIPOGRAFIA E ESPAÇAMENTOS ──────────────────────────────────── */
+
+.mb-2 {
+  margin-bottom: 0.75rem !important;
+}
+.mb-3 {
+  margin-bottom: 1rem !important;
+}
+.mt-1 {
+  margin-top: 0.25rem !important;
+}
+.mt-2 {
+  margin-top: 0.5rem !important;
+}
+.mt-3 {
+  margin-top: 1rem !important;
+}
+
+
+/* ─── 7. SCROLLBAR (opcional) ───────────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #e9ecef;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.2);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0,0,0,0.3);
+}

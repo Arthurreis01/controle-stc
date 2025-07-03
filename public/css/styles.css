@@ -1,0 +1,515 @@
+:root {
+  /* Layout & Spacing */
+  --header-height: 60px;
+  --sidebar-width: 230px;
+  --sidebar-collapsed-width: 70px;
+  --spacing: 16px;
+
+  /* Color Palette */
+  --primary: #1a73e8;
+  --primary-dark: #155abd;
+  --accent: #fbbc04;
+  --success: #34a853;
+  --warning: #fbbc04;
+  --error: #ea4335;
+  --background: #f1f3f4;
+  --surface: #ffffff;
+  --border-color: #e0e0e0;
+
+  /* Typography */
+  --text-primary: #202124;
+  --text-secondary: #5f6368;
+  --font-base: 'Segoe UI', sans-serif;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-sm: 0.85rem;
+}
+
+/* Reset & Base */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: var(--font-base);
+  font-size: var(--font-size-base);
+  background: var(--background);
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Header */
+.header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 calc(var(--spacing) * 1.5);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border-color);
+  z-index: 100;
+}
+.header h1 {
+  font-size: 1.5rem;
+  color: var(--primary-dark);
+}
+.header button {
+  margin-left: var(--spacing);
+  font-size: 0.9rem;
+}
+.header .flex h1 {
+  margin-left: 1rem;
+}
+body.sidebar-collapsed .header .flex h1 {
+  display: none;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: var(--header-height);
+  left: 0; bottom: 0;
+  width: var(--sidebar-width);
+  transition: width 0.2s ease;
+  background: var(--surface);
+  border-right: 1px solid var(--border-color);
+  padding: var(--spacing);
+  overflow-y: auto;
+  z-index: 50;
+}
+body.sidebar-collapsed .sidebar {
+  width: var(--sidebar-collapsed-width);
+}
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing);
+}
+.sidebar nav a {
+  display: flex;
+  position: relative;
+  align-items: center;
+  gap: var(--spacing);
+  padding: 0.6rem var(--spacing);
+  border-radius: 4px;
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  color: var(--text-primary);
+  transition: background 0.2s, color 0.2s;
+}
+.sidebar nav a i {
+  font-size: 1.25rem;
+  min-width: 1.25rem;
+}
+/* small red badges in the sidebar nav */
+/* little red “pill” badges next to nav links */
+.nav-badge {
+  display: inline-block;
+  background: #dc3545;
+  color: #fff;
+  font-size: 0.75rem;
+  line-height: 1;
+  padding: 0.15rem 0.5rem;
+  border-radius: 0.25rem;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+
+
+/* active & hover state */
+.sidebar nav a.active,
+.sidebar nav a:hover {
+  background: var(--primary);
+  color: #fff;
+}
+/* shared badge styling */
+.sidebar-badge {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0.75rem;
+  font-size: 0.75rem;
+  line-height: 1;
+  padding: 0.15rem 0.5rem;
+  border-radius: 8px;
+}
+
+/* STC badge = yellow */
+.badge-stc {
+  background: #ffc107;
+  color: #212529;
+}
+
+/* RTC badge = blue (primary) */
+.badge-rtc {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* Main Content */
+.main {
+  margin-top: var(--header-height);
+  margin-left: var(--sidebar-width);
+  transition: margin-left 0.2s ease;
+  padding: calc(var(--spacing) * 1.5);
+  min-height: calc(100vh - var(--header-height));
+}
+body.sidebar-collapsed .main {
+  margin-left: var(--sidebar-collapsed-width);
+}
+
+/* Typography */
+h2 {
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--spacing);
+  color: var(--text-primary);
+}
+h3 {
+  font-size: calc(var(--font-size-base) * 1.1);
+  margin: calc(var(--spacing) * 1.5) 0 var(--spacing) 0;
+  color: var(--text-primary);
+}
+
+/* Utilities */
+.flex            { display: flex; gap: var(--spacing); }
+.justify-between { justify-content: space-between; }
+.align-center    { align-items: center; }
+.mb-4            { margin-bottom: calc(var(--spacing) * 1.5); }
+.hidden          { display: none !important; }
+
+/* Cards */
+.card-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--spacing);
+}
+.card-item {
+  max-width: 240px;
+  background: var(--surface);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: transform .15s, box-shadow .15s;
+}
+.card-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+}
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem;
+  background: var(--primary);
+  color: #fff;
+}
+.card-header .title {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+.card-body {
+  padding: 0.6rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+.card-body .metric {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.card-body .metric i {
+  font-size: 1rem;
+  color: var(--primary-dark);
+}
+.card-footer {
+  padding: 0.6rem;
+  text-align: right;
+}
+.kanban-column-list {
+  padding: 0.6rem;
+}
+.btn-group btn-group-sm {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.6em 1.2em;
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.btn:hover {
+  background: var(--primary-dark);
+}
+.btn.outline {
+  background: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+}
+.btn.outline:hover {
+  background: var(--primary);
+  color: #fff;
+}
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+}
+.btn i {
+  margin-right: 0.5rem;
+  font-size: 1.1em;
+}
+
+/* Badges */
+.badge-pending   { background: var(--warning);     color: var(--text-primary) }
+.badge-intransit { background: var(--primary-dark); color: #fff;               }
+.badge-clear     { background: var(--success);     color: #fff;               }
+
+/* Tables */
+.table-container {
+  width: 100%; overflow-x: auto;
+}
+.table {
+  width: 100%; border-collapse: collapse; min-width: 600px;
+}
+.table th, .table td {
+  border: 1px solid var(--border-color);
+  padding: 8px; text-align: left;
+}
+.table th {
+  background: var(--primary-dark); color: #fff; font-weight: 600;
+}
+.table tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+/* Forms */
+label {
+  display: block;
+  margin-top: var(--spacing);
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+input[type="text"], input[type="email"],
+input[type="password"], input[type="datetime-local"],
+select {
+  width: 100%;
+  padding: 0.6em;
+  margin-top: 4px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+}
+input[type="file"] {
+  margin-top: var(--spacing);
+}
+
+/* Alerts */
+.alert {
+  color: var(--error);
+  margin-top: var(--spacing);
+  font-size: var(--font-size-sm);
+}
+
+/* Kanban */
+.kanban-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--spacing);
+  overflow-x: auto;
+  padding: var(--spacing) 0;
+}
+.kanban-container::-webkit-scrollbar {
+  height: 8px;
+}
+.kanban-container::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+.kanban-column {
+  background: var(--surface);
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  scroll-snap-align: start;
+}
+.kanban-column-header {
+  background: var(--primary);
+  color: #fff;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+/* Dashboard sections */
+.dashboard-section {
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: calc(var(--spacing)/2) var(--spacing);
+  margin-bottom: var(--spacing);
+  background: var(--surface);
+}
+.dashboard-section h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--primary-dark);
+  margin-bottom: calc(var(--spacing)*0.75);
+}
+.dashboard-section h3 i {
+  font-size: 1.2em;
+  color: var(--primary);
+}
+.dashboard-section .category {
+  margin-bottom: var(--spacing);
+}
+/* Kanban items */
+.kanban-item {
+  position: relative;
+  background: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: box-shadow 0.2s;
+}
+.kanban-item:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.kanban-item .title {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.kanban-item .meta {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+}
+/* make "Pendente" badge yellow */
+.badge.bg-warning {
+  background-color: var(--warning) !important;
+  color: var(--text-primary) !important;
+  font-weight: 600;
+  font-size: 12px;
+  padding: 0.6em 0.6em;
+  border-radius: 0.25rem;
+  width: 60px;
+}
+/* Resize buttons in items */
+.kanban-item .btn-group-sm .btn {
+  margin-right: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.8rem;
+}
+.kanban-item .btn-group-sm .btn:last-child {
+  margin-right: 0;
+}
+.kanban-item .btn-group-sm .btn i {
+  font-size: 1rem;
+  margin-right: 0;
+}
+.kanban-item .content .meta {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+}
+/* colored stripe on the left of each card dashboard */
+.kanban-item.category-secos {
+  border-left: 8px solid var(--success);
+}
+.kanban-item.category-frig {
+  border-left: 8px solid var(--primary);
+}
+
+/* emphasize center select */
+.emphasis-center {
+  width: 100%;
+  padding: 0.5rem;
+  border: 2px solid var(--primary);
+  background: #eef6ff;
+  border-radius: 4px;
+  font-weight: 600;
+}
+.btn-success {
+  background: var(--success) !important;
+  color: #fff !important;
+}
+.btn-success:hover {
+  filter: brightness(0.9);
+}
+
+/* position the red bookmark down a bit and at the right */
+.alert-icon {
+  position: absolute;
+  right: 0.75rem;  
+  top: -5px;   /* hug the right edge */
+  font-size: 1.5rem;
+  color: rgba(250, 0, 0, 0.8);;
+  cursor: help;
+  line-height: 1;
+}
+
+/* hide the tooltip by default */
+.alert-icon .tooltip {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  top: 1.75rem;       /* appear below the bookmark */
+  right: 0;
+  background: rgba(250,0,0,5);
+  color: #fff;
+  padding: 0.5rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  transition: opacity 0.2s ease;
+}
+
+/* show it on hover */
+.alert-icon:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  .card-list { justify-content: center; }
+  .card-item { width: 90%; max-width: 300px; }
+}
+@media (max-width: 480px) {
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1rem; }
+  .icon-btn { font-size: 1rem; }
+}
+

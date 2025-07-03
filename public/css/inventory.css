@@ -1,0 +1,192 @@
+/* inventory.css */
+
+/* Reset básico */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #F5F5F7;   /* cinza bem claro */
+  color: #333333;
+  min-height: 100vh;
+}
+
+/* Navbar superior */
+.navbar {
+  background-color: #1D3557;  /* azul escuro (60%) */
+  color: #FFFFFF;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar button {
+  color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.navbar #inv-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #FFFFFF;
+
+}
+
+/* Mensagem de operação */
+.inv-msg {
+  margin: 0.5rem 1rem;
+  font-size: 0.95rem;
+}
+.inv-msg.success {
+  color: #2A9D8F;  /* verde médio (30%) */
+}
+.inv-msg.error {
+  color: #E76F51;  /* vermelho terroso (10%) */
+}
+
+/* Container de métricas + gráfico */
+.inv-section {
+  margin: 1rem;
+}
+
+/* Cards de KPI */
+#center-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+#center-cards .card {
+  flex: 1 1 calc(25% - 1rem);
+  background: #FFFFFF;
+  border: 1px solid #E0E0E0;
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+#center-cards .card-title {
+  font-size: 0.9rem;
+  color: #555555;
+  margin-bottom: 0.3rem;
+}
+#center-cards .card-text {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #1D3557; /* mantém coerência com a navbar */
+}
+
+/* Caixa do gráfico (apesar de não usarmos mais) */
+.card-dashboard {
+  background: #FFFFFF;
+  border: 1px solid #E0E0E0;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+.card-dashboard .card-header {
+  background-color: #457B9D;  /* azul intermediário (30%) */
+  color: #FFFFFF;
+  font-size: 0.95rem;
+  padding: 0.5rem 1rem;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+.card-dashboard .card-body {
+  padding: 1rem;
+  min-height: 200px;
+}
+
+/* Tabela de Itens */
+.table-container {
+  width: 100%;
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #E0E0E0;
+  border-radius: 6px;
+}
+
+.inv-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+}
+
+.inv-table th,
+.inv-table td {
+  border-bottom: 1px solid #E0E0E0;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.90rem;
+  vertical-align: middle;
+}
+
+.inv-table thead th {
+  background-color: #1D3557; /* azul escuro (60%) */
+  color: #FFFFFF;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  font-weight: 500;
+  text-align: left;
+}
+
+/* Linhas ímpares levemente acinzentadas */
+.inv-table tbody tr:nth-child(odd) {
+  background-color: #F9FAFB;
+}
+
+/* Class “critical” para linhas com autonomia ≤ 7 dias */
+.inv-table tbody tr.critical {
+  background-color: #FCE8E6; /* leve tom de vermelho (10%) */
+}
+
+/* Link na coluna PI */
+.inv-table td a {
+  color: #1D3557; /* azul escuro */
+  text-decoration: none;
+}
+.inv-table td a:hover {
+  text-decoration: underline;
+}
+
+/* Input “Cons./dia” */
+.cons-input {
+  width: 4rem;
+}
+
+/* Badges de status */
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.80rem;
+  border-radius: 4px;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+.badge.success {
+  background-color: #2A9D8F; /* verde médio (30%) */
+}
+.badge.danger {
+  background-color: #E76F51; /* vermelho terroso (10%) */
+}
+
+/* Botão de “×” para excluir (classe .btn-close do Bootstrap) */
+.btn-close {
+  font-size: 1rem;
+  float: right;
+  opacity: 0.6;
+}
+.btn-close:hover {
+  opacity: 1;
+}
+
+/* Botão “Salvar Cons./dia” */
+#save-consumption {
+  margin: 0.5rem 0 1rem 1rem;
+}
+
+/* Estilo do modal (Bootstrap por padrão já cuida) */
+/* apenas garantimos que o arquivo “inventory.css” esteja carregado depois do Bootstrap */

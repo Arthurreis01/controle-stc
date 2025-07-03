@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Controle de RMT</title>
+
+  <!-- Seu CSS personalizado para login -->
+  <link rel="stylesheet" href="css/login.css" />
+</head>
+<body>
+  <div class="login-container">
+    <header class="login-header">
+      <h1>CSupAb - Gerência de Suprimentos</h1>
+      <p class="tagline">Controle de RMT</p>
+    </header>
+
+    <div class="login-card">
+      <h2>Entrar no Sistema</h2>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="roleSelect">Perfil</label>
+          <select id="roleSelect" required>
+            <option value="">Selecione seu perfil</option>
+            <option value="admin">Administrador (CSupAb)</option>
+            <option value="stc">DepSIMRj</option>
+            <option value="rtc">CDAM</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="password">Senha</label>
+          <input
+            type="password"
+            id="password"
+            placeholder="••••••••"
+            required
+          />
+        </div>
+        <button type="submit" class="btn-primary">Entrar</button>
+        <p id="error" class="error"></p>
+      </form>
+    </div>
+
+    <footer class="login-footer">
+      <p>© 2025 Supply Control — Todos os direitos reservados.</p>
+    </footer>
+  </div>
+
+  <!-- Firebase SDK (compat) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+  <!-- Inicialização do Firebase com suas credenciais -->
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyChlOCcH7Pgxfv1Xe7Kv-UXTTGjeHalbmo",
+      authDomain: "stc-rtc.firebaseapp.com",
+      projectId: "stc-rtc",
+      storageBucket: "stc-rtc.firebasestorage.app",
+      messagingSenderId: "629264031087",
+      appId: "1:629264031087:web:832c04326769088752dc9a"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+
+  <!-- Lógica de Login -->
+  <script src="js/login.js"></script>
+</body>
+</html>
