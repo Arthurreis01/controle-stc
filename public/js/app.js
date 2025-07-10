@@ -746,51 +746,59 @@ async function newStcView(params) {
   saveBtn.onclick = async () => {
     if (!validateAndHighlight()) return;
 
-    const codeVal = codeInput.value.trim();
+    const codeVal   = codeInput.value.trim();
     const centerVal = centerSel.value;
-    const selIds = Array.from(tbody.querySelectorAll('input.item-cb:checked'))
-      .map(cb => cb.dataset.id);
 
-    const items = selIds.map(id => ({
-      idRm: id,
-      quantity: parseFloat(tbody.querySelector(`.qty[data-id="${id}"]`).value) || 0,
-      category: tbody.querySelector(`.cat-select[data-id="${id}"]`).value
-    }));
+    // get each checked row and read its inputs
+    const selRows = Array.from(
+      tbody.querySelectorAll('input.item-cb:checked')
+    ).map(cb => cb.closest('tr'));
 
-    // Atualizar STCs
-    let updatedStcs = allStcs;
+    const items = selRows.map(row => {
+      const idRmEl   = row.querySelector('input.item-cb');
+      const qtyEl    = row.querySelector('input.qty');
+      const catEl    = row.querySelector('select.cat-select');
+
+      return {
+        idRm:     idRmEl.dataset.id,
+        quantity: parseFloat(qtyEl.value)    || 0,
+        category: (catEl.value || '').trim()
+      };
+    });
+
+    // rebuild STC list
+    let allStcs = await getData('stcs');
     if (editing) {
-      updatedStcs = updatedStcs.map(s =>
+      allStcs = allStcs.map(s =>
         s.stcId === params.stcId
           ? { ...s, stcId: codeVal, centerCode: centerVal, items }
           : s
       );
     } else {
-      updatedStcs.push({
-        stcId: codeVal,
+      allStcs.push({
+        stcId:      codeVal,
         centerCode: centerVal,
         items,
-        status: 'PendingRTC',
-        createdAt: new Date().toISOString()
+        status:     'PendingRTC',
+        createdAt:  new Date().toISOString()
       });
     }
-    await setData('stcs', updatedStcs, 'stcId');
+    await setData('stcs', allStcs, 'stcId');
 
-    // Atualizar linkedStc nos RMT items
-    const updatedRmt = rmtAll.map(r =>
-      selIds.includes(r.idRm)
-        ? { ...r, linkedStc: codeVal }
-        : (editing && r.linkedStc === params.stcId)
-          ? { ...r, linkedStc: null }
-          : r
-    );
+    // update RMT links
+    const rmtAll = await getData('rmtItems');
+    const selIds = items.map(i => i.idRm);
+    const updatedRmt = rmtAll.map(r => {
+      if (selIds.includes(r.idRm))           return { ...r, linkedStc: codeVal };
+      if (editing && r.linkedStc === params.stcId) return { ...r, linkedStc: null };
+      return r;
+    });
     await setData('rmtItems', updatedRmt, 'idRm');
 
     alert(`STC ${codeVal} salva.`);
     window.location.hash = '#stc';
   };
 }
-
 // ── STC Detail View (async) ─────────────────────────────────────────
 async function stcDetailView(params) {
   // 1) Carrega dados do Firestore
