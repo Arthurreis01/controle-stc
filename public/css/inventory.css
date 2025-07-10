@@ -157,6 +157,26 @@ body {
   width: 4rem;
 }
 
+/* Make table header stick at top of its scrolling container */
+.table-responsive {
+  position: relative;
+  max-height: 67vh; /* adjust as you like */
+  overflow-y: auto;
+}
+
+.inv-table thead th {
+  position: sticky;
+  top: 0;
+  background-color: #343a40; /* match your .table-dark bg */
+  color: #fff;
+  z-index: 10;
+}
+
+/* Search-input styling */
+#search-input {
+  margin-bottom: 0.5rem;
+}
+
 /* Badges de status */
 .badge {
   display: inline-block;
