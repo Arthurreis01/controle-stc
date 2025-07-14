@@ -359,9 +359,9 @@ async function importView() {
     fb.style.display = 'none';
 
     try {
-      // 1) Ler arquivo
-      const data = new Uint8Array(await e.target.files[0].arrayBuffer());
-      const wb   = XLSX.read(data, { type: 'array' });
+      // 1) Ler arquivo com cellDates para captar datas como Date objects
+      const data = new Uint8Array(await file.arrayBuffer());
+      const wb   = XLSX.read(data, { type: 'array', cellDates: true });
       const ws   = wb.Sheets[wb.SheetNames[0]];
       const rows = XLSX.utils.sheet_to_json(ws, { defval: '' });
 
@@ -374,9 +374,27 @@ async function importView() {
         if (!idRm || existing.some(x => x.idRm === idRm)) {
           dupes.add(idRm || '[sem Id]');
         }
+
+        // Normalizar a data em ISO:
+        let dateISO = '';
+        const rawDate = row['Data'];
+        if (rawDate instanceof Date) {
+          dateISO = rawDate.toISOString();
+        } else if (typeof rawDate === 'string') {
+          const parts = rawDate.split('/');
+          if (parts.length === 3) {
+            const d = parseInt(parts[0], 10);
+            const m = parseInt(parts[1], 10);
+            const y = parseInt(parts[2], 10);
+            if (!isNaN(d) && !isNaN(m) && !isNaN(y)) {
+              dateISO = new Date(y, m - 1, d).toISOString();
+            }
+          }
+        }
+
         return {
           supplierCam:   row['CAM Fornec.']    || '',
-          date:          row['Data']           || '',
+          date:          dateISO,
           piNumber:      row['PI']             || '',
           itemName:      row['Nome do Item']   || '',
           idRm,
@@ -416,7 +434,6 @@ async function importView() {
     }
   };
 }
-
 // ── STC Management (async) ───────────────────────────────────
 async function stcView() {
   const app = document.getElementById('app');
@@ -1393,7 +1410,7 @@ async function pending() {
                placeholder="digite Id. RM…" />
       </label>
       <button id="expCsv" class="btn outline" style="margin-left:auto;">
-        <i class="bi bi-file-earmark-spreadsheet"></i> Exportar CSV
+        <i class="bi bi-file-earmark-spreadsheet"></i> Exportar Excel
       </button>
     </div>
     <div class="table-container">
@@ -1473,7 +1490,9 @@ async function pending() {
   filterId.oninput      = render;
   render();
 
-  // 4) Exportar CSV
+  // 4) Exportar Excel (.xlsx)
+  exportBtn.textContent = 'Exportar Excel';
+
   exportBtn.onclick = () => {
     const fc  = filterCenter.value;
     const fid = filterId.value.trim().toLowerCase();
@@ -1482,25 +1501,26 @@ async function pending() {
       (!fid || i.idRm.toLowerCase().includes(fid))
     );
 
-    const header = ['Data','Id. RM','Nome do Item','Centro','UF','Qtd. (UF)'];
-    const rows = filtered.map(i => {
-      const date = i.date ? i.date : '';
-      return [
-        date,
+    // 4.1) Montar matriz de dados (array of arrays)
+    const wsData = [
+      ['Data','Id. RM','Nome do Item','Centro','UF','Qtd. (UF)'],
+      ...filtered.map(i => [
+        i.date ? new Date(i.date).toLocaleDateString('pt-BR') : '',
         i.idRm,
-        `"${i.itemName.replace(/"/g,'""')}"`,
+        i.itemName,
         i.requesterName,
         i.uf,
         i.quantityUf
-      ].join(',');
-    });
+      ])
+    ];
 
-    const csv = [header.join(','), ...rows].join('\r\n');
-    const blob = new Blob([csv], { type:'text/csv;charset=utf-8;' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'pendentes_stc.csv';
-    a.click();
+    // 4.2) Criar workbook e worksheet
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.aoa_to_sheet(wsData);
+    XLSX.utils.book_append_sheet(wb, ws, 'Pendentes');
+
+    // 4.3) Disparar download
+    XLSX.writeFile(wb, 'pendentes_stc.xlsx');
   };
 }
 
