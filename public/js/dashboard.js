@@ -17,8 +17,8 @@ const CENTERS = [
   { code: '7330', name: 'CEIMMA' },
   { code: '7220', name: 'CEIMBE' },
   { code: '6830', name: 'CEIMNA' },
-  { code: '8510', name: 'CEIMSA' },
-  { code: '0960', name: 'CEIMBE' },
+  { code: '8510', name: 'CEIMRG' },
+  { code: '0960', name: 'CEIMSA' },
   { code: '7910', name: 'CEIMLA' },
 ];
 
