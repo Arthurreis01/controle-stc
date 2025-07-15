@@ -137,25 +137,42 @@
   </div>
 
   <!-- Modal: Importar Inventário Inicial (CMM, PI, NOME_COLOQUIAL) -->
-  <div class="modal fade" id="modalImportBase" tabindex="-1">
+<!-- Importar Base de Inventário -->
+  <div class="modal fade" id="modalImportBase" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
+        <!-- header -->
         <div class="modal-header bg-primary text-white">
           <h5 class="modal-title">Importar Base de Inventário</h5>
           <button
             type="button"
             class="btn-close btn-close-white"
             data-bs-dismiss="modal"
+            aria-label="Fechar"
           ></button>
         </div>
+
+        <!-- body -->
         <div class="modal-body">
-          <input
-            type="file"
-            id="file-input-base"
-            class="form-control"
-            accept=".xlsx,.xls,.csv"
-          />
-          <p id="import-base-msg" class="small mt-2" style="display:none;"></p>
+          <!-- 1) Aviso -->
+          <div class="alert alert-warning d-flex align-items-center" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            Ao importar, toda sua base de estoque irá ser atualizada.
+          </div>
+
+          <!-- 2) Seletor de arquivo -->
+          <div class="mb-3">
+            <label for="file-input-base" class="form-label">Selecione o arquivo</label>
+            <input
+              type="file"
+              id="file-input-base"
+              class="form-control"
+              accept=".xlsx,.xls,.csv"
+            />
+            <p id="import-base-msg" class="small mt-2" style="display:none;"></p>
+          </div>
+
+          <!-- 3) Instruções -->
           <small class="text-muted">
             (*) A planilha deve conter, no mínimo, colunas:
             <strong>CMM</strong>, <strong>PI</strong> e
@@ -165,13 +182,23 @@
             “consum_dia = CMM” e “nome = NOME_COLOQUIAL”.
           </small>
         </div>
+
+        <!-- footer -->
         <div class="modal-footer">
           <button
             type="button"
-            class="btn btn-secondary"
+            class="btn btn-outline-secondary"
             data-bs-dismiss="modal"
           >
-            Fechar
+            Cancelar
+          </button>
+          <button
+            type="button"
+            id="btn-do-import-base"
+            class="btn btn-primary"
+          >
+            <i class="bi bi-file-earmark-arrow-up"></i>
+            Importar
           </button>
         </div>
       </div>
