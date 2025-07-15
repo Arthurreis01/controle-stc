@@ -114,22 +114,31 @@ async function renderCenterPage() {
   container.innerHTML = `
     <nav class="navbar bg-primary text-white px-3">
       <button id="btn-back" class="btn btn-outline-light btn-sm">
-        &larr; Voltar
+        &larr; Sair
       </button>
       <span id="inv-title" class="navbar-text ms-3"></span>
-      <div class="ms-auto">
-        <button id="btn-add-product" class="btn btn-outline-light btn-sm me-2">
-          <i class="bi bi-plus-lg"></i> Adicionar Produto
-        </button>
-        <button id="btn-import-base" class="btn btn-outline-light btn-sm me-2">
-          <i class="bi bi-file-earmark-arrow-up"></i> Importar Inventário
-        </button>
-        <button id="btn-import" class="btn btn-outline-light btn-sm">
-          <i class="bi bi-box-arrow-in-up"></i> Importar Estoque
+
+      <div class="ms-auto d-flex align-items-center">
+        <!-- small group stays together -->
+        <div class="btn-group btn-group-sm">
+          <button id="btn-add-product" class="btn btn-outline-light">
+            <i class="bi bi-plus-lg"></i> Adicionar Produto
+          </button>
+          <button id="btn-import" class="btn btn-outline-light">
+            <i class="bi bi-box-arrow-in-up"></i> Importar Estoque
+          </button>
+        </div>
+
+        <!-- extra‐wide gap before this one -->
+        <button
+          id="btn-import-base"
+          class="btn btn-outline-light btn-sm ms-5"
+        >
+          <i class="bi bi-file-earmark-arrow-up"></i>
+          Iniciar Inventário
         </button>
       </div>
     </nav>
-
     <div id="inv-msg" class="alert" style="display:none;margin:1rem;"></div>
 
     <section id="center-metrics-section" class="px-3 py-2 d-none">
@@ -433,10 +442,16 @@ async function renderCenterPage() {
   btnAdd.addEventListener('click',()=>new bootstrap.Modal(
     document.getElementById('modalAddProduct')
   ).show());
-  document.getElementById('btn-import-base').addEventListener('click',()=>new bootstrap.Modal(
-    document.getElementById('modalImportBase')
-  ).show());
-  document.getElementById('btn-import').addEventListener('click',()=>new bootstrap.Modal(
+  document.getElementById('btn-import-base').addEventListener('click', () => {
+    const ok = confirm(
+      'Ao importar, toda sua base de estoque irá ser atualizada.\n\nDeseja continuar?'
+    );
+    if (!ok) return;
+    new bootstrap.Modal(
+      document.getElementById('modalImportBase')
+    ).show();
+  });
+    document.getElementById('btn-import').addEventListener('click',()=>new bootstrap.Modal(
     document.getElementById('modalImport')
   ).show());
 
