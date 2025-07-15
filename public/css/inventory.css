@@ -208,5 +208,11 @@ body {
   margin: 0.5rem 0 1rem 1rem;
 }
 
-/* Estilo do modal (Bootstrap por padrão já cuida) */
-/* apenas garantimos que o arquivo “inventory.css” esteja carregado depois do Bootstrap */
+#btn-import {
+  margin-right: 450px;
+}
+#btn-import-base {
+  display: flex;
+  background-color: #ff4800;
+  border: #ff4800;
+}
